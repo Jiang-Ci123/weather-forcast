@@ -1,0 +1,12 @@
+.effect_ele {
+    position: fixed;
+    z-index: 1;
+    font-size: 18px;
+    font-weight: bold;
+    white-space: nowrap;
+    /* 让元素不能被选中 */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}

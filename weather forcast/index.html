@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/animate.css" />
+    <link href="css/swiper.min.css" type="text/css" rel="stylesheet">
+    <link href="css/style.css" type="text/css" rel="stylesheet">
+    <script src="js/swiper.min.js"></script>
+    <script src="js/jquery.min.js"></script>
+
+
+    <title>天气预报</title>
+</head>
+
+<body>
+
+    <div id="app">
+
+        <!-- nav -->
+        <div class="bjing">
+            <div class="check_city">
+                <h3>当前搜索位置: &nbsp;&nbsp;{{weatherList_today.city}}</h3>
+            </div>
+        </div>
+        <nav class="nav">
+            <span class="blog_name">ღ江辞᭄ꦿ࿐</span>
+            <ul class="menus">
+                <li><a href="javascript:;">主页</a></li>
+                <li><a href="javascript:;">个人简介</a></li>
+                <li><a href="javascript:;">文章</a></li>
+                <li><a href="javascript:;">留言板</a></li>
+                <li><a href="javascript:;">友链</a></li>
+            </ul>
+        </nav>
+
+        <div class="title">
+            <h1>天气预报查询</h1>
+        </div>
+
+        <div class="inputbox">
+            <input type="text" v-model="city" @keyup.enter="searchWeather" placeholder="搜索市、区、县等（名字不要带市和区）"
+                class="input_text">
+            <div class="input-icon">
+                <img src="image/下载.png" alt="搜索" width="22" height="22" @click="searchWeather">
+            </div>
+        </div>
+
+        <!-- card1 -->
+        <div class="tab1">
+
+            <div class="main-card1-wrong">
+                <h2>当前天气预报</h2>
+            </div>
+
+            <div class="main-card1">
+                <h2>当前天气预报</h2>
+
+                <!-- more -->
+                <button onclick="document.getElementById('id01').style.display='block'"
+                    style="width:auto;">查看更多相关信息</button>
+
+                <div id="id01" class="modal">
+
+                    <div class="modal-content animate">
+                        <div class="imgcontainer">
+                            <span onclick="document.getElementById('id01').style.display='none'" class="close"
+                                title="Close Modal">&times;</span>
+                        </div>
+
+                        <div class="container">
+                            <h1>相关生活指数</h1>
+                            <div>
+                                <div class="sidebar">
+                                    <ul>
+                                        <li class="now">空调</li>
+                                        <li>过敏</li>
+                                        <li>晨练</li>
+                                        <li>舒适度</li>
+                                        <li>穿衣</li>
+                                        <li>钓鱼</li>
+                                        <li>防晒</li>
+                                        <li>逛街</li>
+                                        <li>太阳镜</li>
+                                        <li>感冒</li>
+                                        <li>干燥</li>
+                                        <li>划船</li>
+                                        <li>交通</li>
+                                        <li>路况</li>
+                                        <li>晾晒</li>
+                                        <li>美发</li>
+                                        <li>夜生活</li>
+                                        <li>啤酒</li>
+                                        <li>放风筝</li>
+                                        <li>空气污染</li>
+                                        <li>化妆</li>
+                                        <li>旅游</li>
+                                        <li>紫外线</li>
+                                        <li>风寒</li>
+                                        <li>洗车</li>
+                                        <li>心情</li>
+                                        <li>运动</li>
+                                        <li>约会</li>
+                                        <li>雨伞</li>
+                                        <li>中暑</li>
+                                    </ul>
+                                </div>
+
+                                <div class="tab">
+
+                                    <div class="items" style="display: block;">
+                                        <h6>指数名称:&nbsp;&nbsp;{{ kongtiao.name }}</h6>
+                                        <h6>指数级别:&nbsp;&nbsp;{{ kongtiao.level }}</h6>
+                                        <h6>生活提示:&nbsp;&nbsp;{{ kongtiao.desc }}</h6>
+                                    </div>
+                                    <div class="items">
+                                        <h6>指数名称:&nbsp;&nbsp;{{ guomin.name }}</h6>
+                                        <h6>指数级别:&nbsp;&nbsp;{{ guomin.level }}</h6>
+                                        <h6>生活提示:&nbsp;&nbsp;{{ guomin.desc }}</h6>
+                                    </div>
+                                    <div class="items">
+                                        <h6>指数名称:&nbsp;&nbsp;{{ chenlian.name }}</h6>
+                                        <h6>指数级别:&nbsp;&nbsp;{{ chenlian.level }}</h6>
+                                        <h6>生活提示:&nbsp;&nbsp;{{ chenlian.desc }}</h6>
+                                    </div>
+                                    <div class="items">
+                                        <h6>指数名称:&nbsp;&nbsp;{{ shushidu.name }}</h6>
+                                        <h6>指数级别:&nbsp;&nbsp;{{ shushidu.level }}</h6>
+                                        <h6>生活提示:&nbsp;&nbsp;{{ shushidu.desc }}</h6>
+                                    </div>
+                                    <div class="items">
+                                        <h6>指数名称:&nbsp;&nbsp;{{ chuanyi.name }}</h6>
+                                        <h6>指数级别:&nbsp;&nbsp;{{ chuanyi.level }}</h6>
+                                        <h6>生活提示:&nbsp;&nbsp;{{ chuanyi.desc }}</h6>
+                                    </div>
+
+                                    <div class="items">
+                                        <h6>指数名称:&nbsp;&nbsp;{{ diaoyu.name }}</h6>
+                                        <h6>指数级别:&nbsp;&nbsp;{{ diaoyu.level }}</h6>
+                                        <h6>生活提示:&nbsp;&nbsp;{{ diaoyu.desc }}</h6>
+                                    </div>
+                                    <div class="items">
+                                        <h6>指数名称:&nbsp;&nbsp;{{ fangshai.name }}</h6>
+                                        <h6>指数级别:&nbsp;&nbsp;{{ fangshai.level }}</h6>
+                                        <h6>生活提示:&nbsp;&nbsp;{{ fangshai.desc }}</h6>
+                                    </div>
+                                    <div class="items">
+                                        <h6>指数名称:&nbsp;&nbsp;{{ guangjie.name }}</h6>
+                                        <h6>指数级别:&nbsp;&nbsp;{{ guangjie.level }}</h6>
+                                        <h6>生活提示:&nbsp;&nbsp;{{ guangjie.desc }}</h6>
+                                    </div>
+                                    <div class="items">
+                                        <h6>指数名称:&nbsp;&nbsp;{{ taiyangjing.name }}</h6>
+                                        <h6>指数级别:&nbsp;&nbsp;{{ taiyangjing.level }}</h6>
+                                        <h6>生活提示:&nbsp;&nbsp;{{ taiyangjing.desc }}</h6>
+                                    </div>
+                                    <div class="items">
+                                        <h6>指数名称:&nbsp;&nbsp;{{ ganmao.name }}</h6>
+                                        <h6>指数级别:&nbsp;&nbsp;{{ ganmao.level }}</h6>
+                                        <h6>生活提示:&nbsp;&nbsp;{{ ganmao.desc }}</h6>
+                                    </div>
+
+                                    <div class="items">
+                                        <h6>指数名称:&nbsp;&nbsp;{{ ganzao.name }}</h6>
+                                        <h6>指数级别:&nbsp;&nbsp;{{ ganzao.level }}</h6>
+                                        <h6>生活提示:&nbsp;&nbsp;{{ ganzao.desc }}</h6>
+                                    </div>
+                                    <div class="items">
+                                        <h6>指数名称:&nbsp;&nbsp;{{ huachuan.name }}</h6>
+                                        <h6>指数级别:&nbsp;&nbsp;{{ huachuan.level }}</h6>
+                                        <h6>生活提示:&nbsp;&nbsp;{{ huachuan.desc }}</h6>
+                                    </div>
+                                    <div class="items">
+                                        <h6>指数名称:&nbsp;&nbsp;{{ jiaotong.name }}</h6>
+                                        <h6>指数级别:&nbsp;&nbsp;{{ jiaotong.level }}</h6>
+                                        <h6>生活提示:&nbsp;&nbsp;{{ jiaotong.desc }}</h6>
+                                    </div>
+                                    <div class="items">
+                                        <h6>指数名称:&nbsp;&nbsp;{{ lukuang.name }}</h6>
+                                        <h6>指数级别:&nbsp;&nbsp;{{ lukuang.level }}</h6>
+                                        <h6>生活提示:&nbsp;&nbsp;{{ lukuang.desc }}</h6>
+                                    </div>
+                                    <div class="items">
+                                        <h6>指数名称:&nbsp;&nbsp;{{ liangshai.name }}</h6>
+                                        <h6>指数级别:&nbsp;&nbsp;{{ liangshai.level }}</h6>
+                                        <h6>生活提示:&nbsp;&nbsp;{{ liangshai.desc }}</h6>
+                                    </div>
+
+                                    <div class="items">
+                                        <h6>指数名称:&nbsp;&nbsp;{{ meifa.name }}</h6>
+                                        <h6>指数级别:&nbsp;&nbsp;{{ meifa.level }}</h6>
+                                        <h6>生活提示:&nbsp;&nbsp;{{ meifa.desc }}</h6>
+                                    </div>
+                                    <div class="items">
+                                        <h6>指数名称:&nbsp;&nbsp;{{ yeshenghuo.name }}</h6>
+                                        <h6>指数级别:&nbsp;&nbsp;{{ yeshenghuo.level }}</h6>
+                                        <h6>生活提示:&nbsp;&nbsp;{{ yeshenghuo.desc }}</h6>
+                                    </div>
+                                    <div class="items">
+                                        <h6>指数名称:&nbsp;&nbsp;{{ pijiu.name }}</h6>
+                                        <h6>指数级别:&nbsp;&nbsp;{{ pijiu.level }}</h6>
+                                        <h6>生活提示:&nbsp;&nbsp;{{ pijiu.desc }}</h6>
+                                    </div>
+                                    <div class="items">
+                                        <h6>指数名称:&nbsp;&nbsp;{{ fengzheng.name }}</h6>
+                                        <h6>指数级别:&nbsp;&nbsp;{{ fengzheng.level }}</h6>
+                                        <h6>生活提示:&nbsp;&nbsp;{{ fengzheng.desc }}</h6>
+                                    </div>
+                                    <div class="items">
+                                        <h6>指数名称:&nbsp;&nbsp;{{ wuran.name }}</h6>
+                                        <h6>指数级别:&nbsp;&nbsp;{{ wuran.level }}</h6>
+                                        <h6>生活提示:&nbsp;&nbsp;{{ wuran.desc }}</h6>
+                                    </div>
+
+                                    <div class="items">
+                                        <h6>指数名称:&nbsp;&nbsp;{{ huazhuang.name }}</h6>
+                                        <h6>指数级别:&nbsp;&nbsp;{{ huazhuang.level }}</h6>
+                                        <h6>生活提示:&nbsp;&nbsp;{{ huazhuang.desc }}</h6>
+                                    </div>
+                                    <div class="items">
+                                        <h6>指数名称:&nbsp;&nbsp;{{ lvyou.name }}</h6>
+                                        <h6>指数级别:&nbsp;&nbsp;{{ lvyou.level }}</h6>
+                                        <h6>生活提示:&nbsp;&nbsp;{{ lvyou.desc }}</h6>
+                                    </div>
+                                    <div class="items">
+                                        <h6>指数名称:&nbsp;&nbsp;{{ ziwaixian.name }}</h6>
+                                        <h6>指数级别:&nbsp;&nbsp;{{ ziwaixian.level }}</h6>
+                                        <h6>生活提示:&nbsp;&nbsp;{{ ziwaixian.desc }}</h6>
+                                    </div>
+                                    <div class="items">
+                                        <h6>指数名称:&nbsp;&nbsp;{{ fenghan.name }}</h6>
+                                        <h6>指数级别:&nbsp;&nbsp;{{ fenghan.level }}</h6>
+                                        <h6>生活提示:&nbsp;&nbsp;{{ fenghan.desc }}</h6>
+                                    </div>
+                                    <div class="items">
+                                        <h6>指数名称:&nbsp;&nbsp;{{ xiche.name }}</h6>
+                                        <h6>指数级别:&nbsp;&nbsp;{{ xiche.level }}</h6>
+                                        <h6>生活提示:&nbsp;&nbsp;{{ xiche.desc }}</h6>
+                                    </div>
+
+                                    <div class="items">
+                                        <h6>指数名称:&nbsp;&nbsp;{{ xinqing.name }}</h6>
+                                        <h6>指数级别:&nbsp;&nbsp;{{ xinqing.level }}</h6>
+                                        <h6>生活提示:&nbsp;&nbsp;{{ xinqing.desc }}</h6>
+                                    </div>
+                                    <div class="items">
+                                        <h6>指数名称:&nbsp;&nbsp;{{ yundong.name }}</h6>
+                                        <h6>指数级别:&nbsp;&nbsp;{{ yundong.level }}</h6>
+                                        <h6>生活提示:&nbsp;&nbsp;{{ yundong.desc }}</h6>
+                                    </div>
+                                    <div class="items">
+                                        <h6>指数名称:&nbsp;&nbsp;{{ yuehui.name }}</h6>
+                                        <h6>指数级别:&nbsp;&nbsp;{{ yuehui.level }}</h6>
+                                        <h6>生活提示:&nbsp;&nbsp;{{ yuehui.desc }}</h6>
+                                    </div>
+                                    <div class="items">
+                                        <h6>指数名称:&nbsp;&nbsp;{{ yusan.name }}</h6>
+                                        <h6>指数级别:&nbsp;&nbsp;{{ yusan.level }}</h6>
+                                        <h6>生活提示:&nbsp;&nbsp;{{ yusan.desc }}</h6>
+                                    </div>
+                                    <div class="items">
+                                        <h6>指数名称:&nbsp;&nbsp;{{ zhongshu.name }}</h6>
+                                        <h6>指数级别:&nbsp;&nbsp;{{ zhongshu.level }}</h6>
+                                        <h6>生活提示:&nbsp;&nbsp;{{ zhongshu.desc }}</h6>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="card1-one">
+                    <img src="image/weather/天气icon_晴天_黑夜.png" alt="">
+                    <h3 v-text="weatherList_today.tem + '°C'"></h3>
+                    <h4>{{ weatherList_today.wea }}</h4>
+                </div>
+                <p v-text="">今天天气情况：{{ weatherList_today.wea }}，当前温度{{ weatherList_today.tem + "°C" }}。</p>
+                <div class="card1-two">
+                    <ul>
+                        <li class="tooltip">
+                            <span>空气质量指数</span>
+                            <div class="tooltiptext">
+                                空气质量指数的数值范围为0到500。
+                                <br>
+                                0-50代表优；51-100代表良；
+                                <br>
+                                101-150代表轻度污染；151-200代表中度污染，
+                                <br>
+                                201-300代表重度污染，301-500为严重污染，
+                                <br>
+                                大于500为爆表，优良天气指AQI小于等于100的天气。
+                            </div>
+                            <h4>{{ weatherList_today.air }}</h4>
+                        </li>
+                        <li class="tooltip">
+                            <span>气压</span>
+                            <div class="tooltiptext">
+                                压力是大气中空气的重量。
+                                <br>
+                                归纳它为标准大气压1,013.25 mb
+                                <br>
+                                较高的压力通常与晴朗的天气有关，
+                                <br>
+                                较低的压力与暴风雨天气有关。
+                            </div>
+                            <h4>{{ weatherList_today.pressure + "百帕"}}</h4>
+                        </li>
+                        <li class="tooltip">
+                            <span>湿度</span>
+                            <div class="tooltiptext">
+                                相对于空气在当前温度下所能包含的
+                                <br>
+                                最大水分量，空气中存在的水分量。
+                            </div>
+                            <h4>{{ weatherList_today.humidity }}</h4>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card1-three">
+                    <ul>
+                        <li class="tooltip">
+                            <span>风向</span>
+                            <div class="tooltiptext">
+                                风吹来的方向。
+                            </div>
+                            <h4>{{ weatherList_today.win }}</h4>
+                        </li>
+                        <li class="tooltip">
+                            <span>风力</span>
+                            <div class="tooltiptext">
+                                风吹到物体上所表现出的力量的大小。
+                            </div>
+                            <h4>{{ weatherList_today.win_speed }}</h4>
+                        </li>
+                        <li class="tooltip">
+                            <span>风速</span>
+                            <div class="tooltiptext">
+                                风的前进速度。
+                            </div>
+                            <h4>{{ weatherList_today.win_meter }}</h4>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- card2 -->
+
+        <div class="tab2">
+
+            <div class="main-card2-wrong">
+                <h2>七日天气预报</h2>
+
+            </div>
+
+            <div class="main-card2">
+                <h2>七日天气预报</h2>
+                <div>
+                    <div class="wrapper">
+
+                        <div class="item-bg"></div>
+
+                        <div class="news-slider">
+
+                            <div class="news-slider__wrp swiper-wrapper">
+
+                                <div class="news-slider__item swiper-slide">
+                                    <a href="javascript:;" class="news__item">
+                                        <div class="news-date">
+                                            <span class="news-date__title">
+                                                {{ weatherList_seven_zero.date }}
+                                            </span>
+                                            <span class="news-date__txt">
+                                                {{ weatherList_seven_zero.wea }}
+                                            </span>
+                                        </div>
+                                        <div class="news__title">
+                                            {{ weatherList_seven_zero.tem_day + "°C" }}
+                                            <br>
+                                            {{ weatherList_seven_zero.tem_night + "°C" }}
+                                        </div>
+
+                                        <p class="news__txt">
+                                            风向：
+                                            <br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;{{ weatherList_seven_zero.win }}
+                                            <br>
+                                            风速：
+                                            <br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;{{ weatherList_seven_zero.win_speed }}
+                                        </p>
+                                    </a>
+                                </div>
+
+                                <div class="news-slider__item swiper-slide">
+                                    <a href="javascript:;" class="news__item">
+                                        <div class="news-date">
+                                            <span class="news-date__title">
+                                                {{ weatherList_seven_one.date }}
+                                            </span>
+                                            <span class="news-date__txt">
+                                                {{ weatherList_seven_one.wea }}
+                                            </span>
+                                        </div>
+                                        <div class="news__title">
+                                            {{ weatherList_seven_one.tem_day + "°C" }}
+                                            <br>
+                                            {{ weatherList_seven_one.tem_night + "°C" }}
+                                        </div>
+
+                                        <p class="news__txt">
+                                            风向：
+                                            <br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;{{ weatherList_seven_one.win }}
+                                            <br>
+                                            风速：
+                                            <br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;{{ weatherList_seven_one.win_speed }}
+                                        </p>
+                                    </a>
+                                </div>
+
+                                <div class="news-slider__item swiper-slide">
+                                    <a href="javascript:;" class="news__item">
+                                        <div class="news-date">
+                                            <span class="news-date__title">
+                                                {{ weatherList_seven_two.date }}
+                                            </span>
+                                            <span class="news-date__txt">
+                                                {{ weatherList_seven_two.wea }}
+                                            </span>
+                                        </div>
+                                        <div class="news__title">
+                                            {{ weatherList_seven_two.tem_day + "°C" }}
+                                            <br>
+                                            {{ weatherList_seven_two.tem_night + "°C" }}
+                                        </div>
+
+                                        <p class="news__txt">
+                                            风向：
+                                            <br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;{{ weatherList_seven_two.win }}
+                                            <br>
+                                            风速：
+                                            <br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;{{ weatherList_seven_two.win_speed }}
+                                        </p>
+                                    </a>
+                                </div>
+
+                                <div class="news-slider__item swiper-slide">
+                                    <a href="javascript:;" class="news__item">
+                                        <div class="news-date">
+                                            <span class="news-date__title">
+                                                {{ weatherList_seven_three.date }}
+                                            </span>
+                                            <span class="news-date__txt">
+                                                {{ weatherList_seven_three.wea }}
+                                            </span>
+                                        </div>
+                                        <div class="news__title">
+                                            {{ weatherList_seven_three.tem_day + "°C" }}
+                                            <br>
+                                            {{ weatherList_seven_three.tem_night + "°C" }}
+                                        </div>
+
+                                        <p class="news__txt">
+                                            风向：
+                                            <br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;{{ weatherList_seven_three.win }}
+                                            <br>
+                                            风速：
+                                            <br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;{{ weatherList_seven_three.win_speed }}
+                                        </p>
+                                    </a>
+                                </div>
+
+                                <div class="news-slider__item swiper-slide">
+                                    <a href="javascript:;" class="news__item">
+                                        <div class="news-date">
+                                            <span class="news-date__title">
+                                                {{ weatherList_seven_four.date }}
+                                            </span>
+                                            <span class="news-date__txt">
+                                                {{ weatherList_seven_four.wea }}
+                                            </span>
+                                        </div>
+                                        <div class="news__title">
+                                            {{ weatherList_seven_four.tem_day + "°C" }}
+                                            <br>
+                                            {{ weatherList_seven_four.tem_night + "°C" }}
+                                        </div>
+
+                                        <p class="news__txt">
+                                            风向：
+                                            <br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;{{ weatherList_seven_four.win }}
+                                            <br>
+                                            风速：
+                                            <br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;{{ weatherList_seven_four.win_speed }}
+                                        </p>
+                                    </a>
+                                </div>
+
+                                <div class="news-slider__item swiper-slide">
+                                    <a href="javascript:;" class="news__item">
+                                        <div class="news-date">
+                                            <span class="news-date__title">
+                                                {{ weatherList_seven_five.date }}
+                                            </span>
+                                            <span class="news-date__txt">
+                                                {{ weatherList_seven_five.wea }}
+                                            </span>
+                                        </div>
+                                        <div class="news__title">
+                                            {{ weatherList_seven_five.tem_day + "°C" }}
+                                            <br>
+                                            {{ weatherList_seven_five.tem_night + "°C" }}
+                                        </div>
+
+                                        <p class="news__txt">
+                                            风向：
+                                            <br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;{{ weatherList_seven_five.win }}
+                                            <br>
+                                            风速：
+                                            <br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;{{ weatherList_seven_five.win_speed }}
+                                        </p>
+                                    </a>
+                                </div>
+
+                                <div class="news-slider__item swiper-slide">
+                                    <a href="javascript:;" class="news__item">
+                                        <div class="news-date">
+                                            <span class="news-date__title">
+                                                {{ weatherList_seven_six.date }}
+                                            </span>
+                                            <span class="news-date__txt">
+                                                {{ weatherList_seven_six.wea }}
+                                            </span>
+                                        </div>
+                                        <div class="news__title">
+                                            {{ weatherList_seven_six.tem_day + "°C" }}
+                                            <br>
+                                            {{ weatherList_seven_six.tem_night + "°C" }}
+                                        </div>
+
+                                        <p class="news__txt">
+                                            风向：
+                                            <br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;{{ weatherList_seven_six.win }}
+                                            <br>
+                                            风速：
+                                            <br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;{{ weatherList_seven_six.win_speed }}
+                                        </p>
+                                    </a>
+                                </div>
+
+                            </div>
+
+
+                            <div class="news-slider__ctr">
+
+                                <div class="news-slider__arrows">
+                                    <button class="news-slider__arrow news-slider-prev">
+                                        <span class="icon-font">
+                                            <svg class="icon icon-arrow-left">
+                                                <use xlink:href="#icon-arrow-left"></use>
+                                            </svg>
+                                        </span>
+                                    </button>
+                                    <button class="news-slider__arrow news-slider-next">
+                                        <span class="icon-font">
+                                            <svg class="icon icon-arrow-right">
+                                                <use xlink:href="#icon-arrow-right"></use>
+                                            </svg>
+                                        </span>
+                                    </button>
+                                </div>
+
+                                <div class="news-slider__pagination"></div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <svg hidden="hidden" id="icon">
+                        <defs>
+                            <symbol id="icon-arrow-left" viewBox="0 0 32 32">
+                                <title>arrow-left</title>
+                                <path
+                                    d="M0.704 17.696l9.856 9.856c0.896 0.896 2.432 0.896 3.328 0s0.896-2.432 0-3.328l-5.792-5.856h21.568c1.312 0 2.368-1.056 2.368-2.368s-1.056-2.368-2.368-2.368h-21.568l5.824-5.824c0.896-0.896 0.896-2.432 0-3.328-0.48-0.48-1.088-0.704-1.696-0.704s-1.216 0.224-1.696 0.704l-9.824 9.824c-0.448 0.448-0.704 1.056-0.704 1.696s0.224 1.248 0.704 1.696z">
+                                </path>
+                            </symbol>
+                            <symbol id="icon-arrow-right" viewBox="0 0 32 32">
+                                <title>arrow-right</title>
+                                <path
+                                    d="M31.296 14.336l-9.888-9.888c-0.896-0.896-2.432-0.896-3.328 0s-0.896 2.432 0 3.328l5.824 5.856h-21.536c-1.312 0-2.368 1.056-2.368 2.368s1.056 2.368 2.368 2.368h21.568l-5.856 5.824c-0.896 0.896-0.896 2.432 0 3.328 0.48 0.48 1.088 0.704 1.696 0.704s1.216-0.224 1.696-0.704l9.824-9.824c0.448-0.448 0.704-1.056 0.704-1.696s-0.224-1.248-0.704-1.664z">
+                                </path>
+                            </symbol>
+                        </defs>
+                    </svg>
+                </div>
+            </div>
+
+
+
+
+        </div>
+
+
+    </div>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/axios.js"></script>
+    <script src="js/mouse-animate.js"></script>
+    <script src="js/sakura.js"></script>
+    <script src="js/vue.js"></script>
+    <script src="js/slide.js"></script>
+</body>
+
+</html>
